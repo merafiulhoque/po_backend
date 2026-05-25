@@ -17,6 +17,7 @@ model gds {
   id Int @id @default(autoincrement())
   empId String @unique
   name String
+  role Role
   office String
   acOffice String
   salaryAc String

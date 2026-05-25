@@ -1,10 +1,14 @@
 import z from "zod"
 
+
+const RoleEnum = z.enum(["GDS_BPM", "GDS_ABPM", "GDS_DAKSEVAK"]);
+
 export const GdsResigterSchema = z.object({
     empId: z.string().length(8, "Employee Id should be of length 8").refine(str => /^\d+$/.test(str), {message: "Only   numbers allowed"}),
     name: z.string().regex(/^[A-Za-z\s]+$/, {
         message: "Only alphabets and spaces are allowed"
         }).refine(str => str.toUpperCase()),
+    role: RoleEnum,
     office: z.string().regex(/^[A-Za-z\s]+$/, {
         message: "Only alphabets and spaces are allowed"
         }).refine(str => str.toUpperCase()),
@@ -28,3 +32,10 @@ export const SubRegisterSchema = z.object({
 })
 
 export type SubRegisterData = z.infer<typeof SubRegisterSchema>
+
+export const GDSLoginSchema = z.object({
+    empId: z.string().length(8, "Employee Id should be of length 8").refine(str => /^\d+$/.test(str), {message: "Only   numbers allowed"}),
+    password: z.string().min(6, "At least 6 characters needed").max(20, "Max 20 allowed")
+})
+
+export type GDSLoginData = z.infer<typeof GDSLoginSchema>
