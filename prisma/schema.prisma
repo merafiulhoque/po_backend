@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  GDS_BPM
+  GDS_ABPM
+  GDS_DAKSEVAK
+}
+
+model gds {
+  id Int @id @default(autoincrement())
+  empId String @unique
+  name String
+  office String
+  acOffice String
+  salaryAc String
+  subId substitute?
+  password String
+  isPremium Boolean @default(false)
+  @@map("gds")
+}
+
+model substitute {
+  id Int @id @default(autoincrement())
+  subId String @unique
+  name String
+  age Int
+  subAc String
+  address String
+  subOf String @unique
+  gds gds @relation(fields: [subOf], references: [empId])
+  @@map("substitute")
+}
